@@ -1,0 +1,8 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+DEBUG = True
+
+# 数据库
+SQLALCHEMY_DATABASE_URI = "mysql://root:Jiangsq8@rm-2ze228s38h786mys2xo.mysql.rds.aliyuncs.com:3306/TEST?charset=utf8mb4"
+MYSQL_CURSORCLASS='DictCursor'
