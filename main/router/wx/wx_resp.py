@@ -75,8 +75,10 @@ def subscribe_resp():
 def update_menu_setting():
     """更新自定义菜单"""
     try:
-        wechat.create_menu(app.config['MENU_SETTING'])
+        menu_update_resp = init_wechat_sdk().create_menu(app.config['MENU_SETTING'])
+        app.logger.info('update menu list: %s', menu_update_resp)
     except Exception, e:
-        return wechat.response_text(e)
+        app.logger.error('Unhandled Exception: %s', e)
+        return 'error'
     else:
-        return wechat.response_text('Done!')
+        return 'success'

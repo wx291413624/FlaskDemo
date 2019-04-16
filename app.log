@@ -54,3 +54,5 @@ TypeError: The view function did not return a valid response. The function eithe
 2019-04-11 15:31:56,812 ERROR: Unhandled Exception: 'dict' object has no attribute 'errcode' [in /home/cry/PycharmProjects/ns-gas/main/router/__init__.py:14]
 2019-04-11 15:32:14,306 ERROR: Unhandled Exception: 41002 appid missing, hints: [ req_id: PhfBg6yFe-Yi3DLa ] [in /home/cry/PycharmProjects/ns-gas/main/router/__init__.py:14]
 2019-04-11 15:32:15,005 ERROR: Unhandled Exception: 41002 appid missing, hints: [ req_id: PhfBwqLnRa-O0gZNa ] [in /home/cry/PycharmProjects/ns-gas/main/router/__init__.py:14]
+2019-04-16 18:48:48,385 ERROR: Unhandled Exception: global name 'wechat' is not defined [in /home/cry/PycharmProjects/ns-gas/main/router/__init__.py:14]
+2019-04-16 18:49:34,031 ERROR: Unhandled Exception: global name 'wechat' is not defined [in /home/cry/PycharmProjects/ns-gas/main/router/__init__.py:14]

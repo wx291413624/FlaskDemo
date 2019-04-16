@@ -1,5 +1,5 @@
 # coding=utf-8
-from main import app, request, jsonify
+from main import app, request, jsonify, url_param
 from main.router.wx.wx_login import wechat_login
 from main.router.wx.wx_resp import wechat_response
 from main.router.wx.wx_utils import check_signature
@@ -29,3 +29,10 @@ def authorized():
     access_token = data.access_token
     user = wl.user_info(access_token, openid)
     return jsonify(user)
+
+
+@app.route("/menu", methods=['GET', 'POST'])
+@url_param
+def menu():
+    wx_resp.update_menu_setting()
+    return 'success'
