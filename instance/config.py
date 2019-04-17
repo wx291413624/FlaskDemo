@@ -15,8 +15,8 @@ MONGO_URI = "mongodb://39.96.73.116:27017/gas"
 # 微信公众平台配置
 APP_ID = "wx2f772ca355796adb"
 APP_SECRET = "c454b124437d7f656a529911eda93cba"
-TOKEN = ""
-EncodingAESKey = ""
+TOKEN = "nengshuguanwei"
+EncodingAESKey = "6gzMRGule1gjR4fNHTMoIx7XW9bxClzSw4TdVYWDHvh"
 
 # celery 配置
 CELERY_BROKER_URL = 'redis://39.96.73.116:6379/1'

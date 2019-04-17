@@ -15,11 +15,16 @@ class wechat_login(object):
         self.app_secret = app_secret
 
     def _get(self, url, params):
-        resp = self.sess.get(url, params=params)
+        resp = requests.get(url, data=params)
         data = json.loads(resp.content.decode("utf-8"))
         if data['errcode']:
             msg = "%(errcode)d %(errmsg)s" % data
             raise Exception(msg)
+        return data
+
+    def _post_upload_file(self, url, files):
+        resp = self.sess.post(url, files=files)
+        data = json.loads(resp.content.decode("utf-8"))
         return data
 
     def access_token(self, code):
@@ -44,3 +49,9 @@ class wechat_login(object):
         args.setdefault("openid", openid)
         args.setdefault("lang", "zh_CN")
         return self._get(url, args)
+
+    def upload_file(self, access_token, files, file_name, media_type):
+        files = {'media': files, 'filename': file_name}
+        url = "https://api.weixin.qq.com/cgi-bin/material/add_material?access_token=%s&type=%s" % (
+            access_token, media_type)
+        return self._post_upload_file(url, files)

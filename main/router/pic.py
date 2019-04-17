@@ -19,10 +19,10 @@ bucket = oss2.Bucket(auth, 'oss-cn-beijing-internal.aliyuncs.com', 'ns-collectga
 @app.route("/pic", methods=['GET', 'POST'])
 def pic():
     app.logger.info('----------pic upload start-----------')
-    uid = uuid.uuid1()
     fs = request.files.getlist('file')
     pic_list = []
     for f in fs:
+        uid = uuid.uuid1()
         name = str.replace(str(uid), '-', '')
         bucket.put_object(name, f)
         pic_list.append(pic_url + "/" + name + "?x-oss-process=image/resize,h_100")

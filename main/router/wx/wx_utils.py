@@ -25,15 +25,14 @@ def check_signature(func):
         timestamp = request.args.get('timestamp', '')
         nonce = request.args.get('nonce', '')
 
-        wechat = init_wechat_sdk()
-        if not wechat.check_signature(signature=signature,
-                                      timestamp=timestamp,
-                                      nonce=nonce):
-            if request.method == 'POST':
+        if request.method == 'GET':
+            return func(*args, **kwargs)
+        else:
+            wechat = init_wechat_sdk()
+            if not wechat.check_signature(signature=signature,
+                                          timestamp=timestamp,
+                                          nonce=nonce):
                 return "signature failed"
-            else:
-                return redirect(app.config['MAIN_URL'])
-
         return func(*args, **kwargs)
 
     return decorated_function

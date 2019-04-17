@@ -1,8 +1,8 @@
 # coding=utf-8
-from main import app, request, jsonify, url_param
+from main import app, request, jsonify, url_param, uuid, time, mongo
 from main.router.wx.wx_login import wechat_login
 from main.router.wx.wx_resp import wechat_response
-from main.router.wx.wx_utils import check_signature
+from main.router.wx.wx_utils import check_signature, get_wechat_access_token
 
 
 @app.route("/weixin", methods=['GET', 'POST'])
@@ -20,6 +20,7 @@ def handle_wechat_request():
 
 @app.route("/authorized", methods=['GET', 'POST'])
 def authorized():
+    """get openid"""
     code = request.args.get("code")
     if not code:
         return "ERR_INVALID_CODE", 400
@@ -34,5 +35,23 @@ def authorized():
 @app.route("/menu", methods=['GET', 'POST'])
 @url_param
 def menu():
+    """wechat menu"""
     wx_resp.update_menu_setting()
     return 'success'
+
+
+@app.route("/wechat/upload", methods=['GET', 'POST'])
+@url_param
+def upload():
+    """微信上传图片"""
+    fs = request.files.getlist('file')
+    pic_list = []
+    for f in fs:
+        uid = uuid.uuid1()
+        name = str.replace(str(uid), '-', '')
+        access_token = get_wechat_access_token()
+        data = wechat_login("", "").upload_file(access_token, f, name, 'image')
+        ss = {'data': time.time(), 'uuid': str.replace(str(uid), '-', ''), 'pic': data}
+        mongo.db.wechatpic.insert_one(ss)
+        pic_list.append(data)
+    return pic_list

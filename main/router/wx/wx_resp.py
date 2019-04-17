@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import re
 from main import app
 from main.router.wx.wx_utils import init_wechat_sdk
 
@@ -9,21 +8,17 @@ from main.router.wx.wx_utils import init_wechat_sdk
 def wechat_response(data):
     """微信消息处理回复"""
     global message, openid, wechat
-
+    app.logger.info('----wechat msg :---\n' + data)
     wechat = init_wechat_sdk()
     wechat.parse_data(data)
     message = wechat.get_message()
     openid = message.source
-    # 用户信息写入数据库
-
     try:
         get_resp_func = msg_type_resp[message.type]
         response = get_resp_func()
     except KeyError:
-        # 默认回复微信消息
         response = 'success'
 
-    # 保存最后一次交互的时间
     return response
 
 
@@ -41,6 +36,22 @@ def set_msg_type(msg_type):
         return func
 
     return decorator
+
+
+@set_msg_type('subscribe')
+def event_resp():
+    """关注/取消关注事件回复"""
+    app.logger.info('--------用户关注------')
+    # response = wechat.response_image('6xbcktgL5KVQDsNjXNrAxYW3-PLYucb1on6Rpdf5I_Y')
+    response = wechat.response_text("""欢迎关注能数跑腿侠 [玫瑰][玫瑰][玫瑰]
+
+轻松做任务，现金、加油券任你领!!!
+
+点击开始赚钱：http://u2p5hudl5iyp65ef.mikecrm.com/TaB6cIw
+
+跑腿侠，GO GO GO!""")
+    app.logger.info(response)
+    return response
 
 
 @set_msg_type('text')
@@ -61,13 +72,6 @@ def click_resp():
 @set_msg_type('scancode_waitmsg')
 def scancode_waitmsg_resp():
     """扫码类型回复"""
-    response = 'success'
-    return response
-
-
-@set_msg_type('subscribe')
-def subscribe_resp():
-    """订阅类型回复"""
     response = 'success'
     return response
 
