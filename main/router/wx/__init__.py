@@ -1,5 +1,8 @@
 # coding=utf-8
-from main import app, request, jsonify, url_param, uuid, time, mongo
+import json
+
+from main import app, request, jsonify, url_param, uuid, time, mongo, redis
+from main.models.model import User, ErrandsManIdentity
 from main.router.wx.wx_login import wechat_login
 from main.router.wx.wx_resp import wechat_response
 from main.router.wx.wx_utils import check_signature, get_wechat_access_token
@@ -28,8 +31,18 @@ def authorized():
     data = wl.access_token(code)
     openid = data.openid
     access_token = data.access_token
-    user = wl.user_info(access_token, openid)
-    return jsonify(user)
+    wechat_user = wl.user_info(access_token, openid)
+    account = User.query.filter_by(openid=wechat_user.openid).first()
+    if account:
+        app.logger.info('----user is in our database---')
+    else:
+        account = User(unionid=wechat_user.unionid, openid=wechat_user.openid, nickName=wechat_user.nickname,
+                       head_img_url=wechat_user.headimgurl, sex=wechat_user.sex, is_del=0, isErrandsMan=0).save()
+    token = str.replace(str(uuid.uuid1()), '-', '')
+    redis.set("account:wechat_login:" + token, json.dumps(account.to_json()), 70000)
+    if wechat_user.phone:
+        return jsonify({'token': token, 'type': 1})
+    return jsonify({'token': token, 'type': 0})
 
 
 @app.route("/menu", methods=['GET', 'POST'])

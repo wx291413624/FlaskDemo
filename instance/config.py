@@ -4,13 +4,15 @@ from celery.schedules import crontab
 
 DEBUG = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
-SQLALCHEMY_DATABASE_URI = "mysql://root:TcjdCKtFhrMI1fCK@rm-2ze228s38h786mys2xo.mysql.rds.aliyuncs.com:3306/TEST?charset=utf8mb4"
+SQLALCHEMY_DATABASE_URI = "mysql://root:Kiretyo1521@47.95.235.183:3306/guns?charset=utf8mb4"
 # SQLALCHEMY_DATABASE_URI = "mysql://debian-sys-maint:PmOL3zdw6WErzZ7a@127.0.0.1:3306/TEST?charset=utf8mb4"
 
 MYSQL_CURSORCLASS = 'DictCursor'
 
 MONGO_URI = "mongodb://39.96.73.116:27017/gas"
 # MONGO_URI = "mongodb://localhost:27017/gas"
+
+REDIS_HOST = '39.96.73.116'
 
 # 微信公众平台配置
 APP_ID = "wx2f772ca355796adb"
@@ -33,18 +35,44 @@ MENU_SETTING = {
     "button": [
         {
             "type": "view",
-            "name": "主页",
+            "name": "跑腿侠申请",
             "url": "http://www.baidu.com/"
         },
         {
             "type": "view",
-            "name": "任务",
+            "name": "任务广场",
             "url": "http://www.baidu.com/"
         },
         {
             "type": "view",
-            "name": "个人",
+            "name": "我的账户",
             "url": "http://www.baidu.com/"
         }
     ]
+}
+
+MENU_TEST_CLICK = {
+    "button": [
+        {
+            "type": "click",
+            "name": "跑腿侠申请",
+            "key": "TEST_CLICK"
+        },
+        {
+            "type": "click",
+            "name": "任务广场",
+            "key": "TEST_CLICK"
+        },
+        {
+            "type": "click",
+            "name": "我的账户",
+            "key": "TEST_CLICK"
+        }
+    ]
+}
+
+CITY_PIC_KEY = {
+    u'重庆': u'6xbcktgL5KVQDsNjXNrAxden-GUgfV_CpmlwnhknI4A',
+    u'北京': u'6xbcktgL5KVQDsNjXNrAxTwHdpMjnE6I_ybyHByFPXo',
+    u'西安': u'6xbcktgL5KVQDsNjXNrAxc-ySgKiQLSurS9OhT6RpbU'
 }

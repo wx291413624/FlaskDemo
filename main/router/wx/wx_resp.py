@@ -1,8 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from main import app
+from main import app, re
 from main.router.wx.wx_utils import init_wechat_sdk
+
+import sys
+
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 
 def wechat_response(data):
@@ -42,10 +47,11 @@ def set_msg_type(msg_type):
 def event_resp():
     """关注/取消关注事件回复"""
     app.logger.info('--------用户关注------')
-    # response = wechat.response_image('6xbcktgL5KVQDsNjXNrAxYW3-PLYucb1on6Rpdf5I_Y')
     response = wechat.response_text("""欢迎关注能数跑腿侠 [玫瑰][玫瑰][玫瑰]
 
 轻松做任务，现金、加油券任你领!!!
+
+回复[地区(如：西安)]加入微信群，解锁更多赚钱任务，还可以结实同行业更多人脉人资源!
 
 点击开始赚钱：http://u2p5hudl5iyp65ef.mikecrm.com/TaB6cIw
 
@@ -57,15 +63,25 @@ def event_resp():
 @set_msg_type('text')
 def text_resp():
     """文本类型回复"""
-    # 默认回复微信消息
+    message.content = message.content.replace(u'　', ' ')
+    message.content = message.content.lstrip()
+    commands = {
+        u'重庆': return_to_pic,
+        u'北京': return_to_pic,
+        u'西安': return_to_pic
+    }
     response = 'success'
+    for key_word in commands:
+        if re.match(key_word, message.content):
+            response = commands[key_word](key_word)
+            break
     return response
 
 
 @set_msg_type('click')
 def click_resp():
     """菜单点击类型回复"""
-    response = 'success'
+    response = wechat.response_text("""该功能正在开发中...""")
     return response
 
 
@@ -86,3 +102,7 @@ def update_menu_setting():
         return 'error'
     else:
         return 'success'
+
+
+def return_to_pic(pic_key):
+    return wechat.response_image(app.config['CITY_PIC_KEY'][pic_key.decode('utf-8')])

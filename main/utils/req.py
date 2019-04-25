@@ -30,3 +30,12 @@ def url_param(func):
             return 'signature error'
 
     return test
+
+
+def phonelist(phone):
+    if phone:
+        list = phone[3:7]
+        newphone = phone.replace(list, '****')
+        return newphone
+    else:
+        return None

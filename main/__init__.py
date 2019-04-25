@@ -20,7 +20,7 @@ CORS(app, supports_credentials=True)
 # 初始第三方库
 mongo = PyMongo(app)
 celery = make_celery(app)
-redis = Redis()
+redis = Redis(host=app.config['REDIS_HOST'])
 
 # 记录日志
 handler = RotatingFileHandler('app.log', maxBytes=10000, backupCount=1)
