@@ -15,7 +15,15 @@ class wechat_login(object):
         self.app_secret = app_secret
 
     def _get(self, url, params):
-        resp = requests.get(url, data=params)
+        resp = requests.get(url, params=params)
+        data = json.loads(resp.content.decode("utf-8"))
+        if data['errcode']:
+            msg = "%(errcode)d %(errmsg)s" % data
+            raise Exception(msg)
+        return data
+
+    def _post(self, url, params):
+        resp = requests.post(url, json=params)
         data = json.loads(resp.content.decode("utf-8"))
         if data['errcode']:
             msg = "%(errcode)d %(errmsg)s" % data
@@ -50,8 +58,16 @@ class wechat_login(object):
         args.setdefault("lang", "zh_CN")
         return self._get(url, args)
 
-    def upload_file(self, access_token, files, file_name, media_type):
-        files = {'media': files, 'filename': file_name}
+    def upload_file(self, access_token, files, media_type):
+        """上传永久素材 """
+        files = {'media': (files.filename, files, files.filename.split('.')[-1].lower()), 'filename': files.filename}
         url = "https://api.weixin.qq.com/cgi-bin/material/add_material?access_token=%s&type=%s" % (
             access_token, media_type)
         return self._post_upload_file(url, files)
+
+    def del_file(self, access_token, media_id):
+        """删除永久素材"""
+        url = 'https://api.weixin.qq.com/cgi-bin/material/del_material?access_token=%s' % access_token
+        params = dict()
+        params.setdefault('media_id', media_id)
+        return self._post(url, params)

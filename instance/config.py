@@ -1,6 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import os
+from datetime import timedelta
+
 from celery.schedules import crontab
+
+SEND_FILE_MAX_AGE_DEFAULT = timedelta(seconds=1)
+PERMANENT_SESSION_LIFETIME = timedelta(hours=2)
+SECRET_KEY = os.urandom(24)
 
 DEBUG = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
@@ -72,7 +79,7 @@ MENU_TEST_CLICK = {
 }
 
 CITY_PIC_KEY = {
-    u'重庆': u'6xbcktgL5KVQDsNjXNrAxden-GUgfV_CpmlwnhknI4A',
-    u'北京': u'6xbcktgL5KVQDsNjXNrAxTwHdpMjnE6I_ybyHByFPXo',
-    u'西安': u'6xbcktgL5KVQDsNjXNrAxc-ySgKiQLSurS9OhT6RpbU'
+    u'重庆': u'6xbcktgL5KVQDsNjXNrAxV_fIR0oBncXhQUzcjhMi9g',
+    u'北京': u'6xbcktgL5KVQDsNjXNrAxUj5PDD0azvm64EQJN-CTxw',
+    u'西安': u'6xbcktgL5KVQDsNjXNrAxX5RYr_1G76Z70UgUGUclXA'
 }

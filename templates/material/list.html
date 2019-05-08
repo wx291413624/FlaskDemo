@@ -1,0 +1,108 @@
+<div id="exMark" style="display:none">{% include './material/mask.html' %}</div>
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Material</h4>
+                <button type="button" class="btn btn-danger" onclick="onshow()"><i class="mdi mdi-upload"></i>新建
+                </button>
+                <div style="height: 10px"></div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>
+                            使用状态
+                        </th>
+                        <th>
+                            素材标识
+                        </th>
+                        <th>
+                            素材地址
+                        </th>
+                        <th>
+                            素材类型
+                        </th>
+                        <th>
+                            有效期类型
+                        </th>
+                        <th>
+                            创建时间
+                        </th>
+                        <th>
+                            功能说明
+                        </th>
+                        <th>
+                            关键字标识
+                        </th>
+                        <th>
+                            素材状态
+                        </th>
+                        <th>
+                            操作
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for data in list %}
+                        <tr>
+                            <td>
+                                {% if data.is_use == 1 %}
+                                    使用中
+                                {% else %}
+                                    未使用
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ data.media_id }}
+                            </td>
+                            <td style="width: 20px">
+                                {{ data.url }}
+                            </td>
+                            <td>
+                                {{ data.material_type }}
+                            </td>
+                            <td>
+                                {% if data.type == 0 %}
+                                    永久素材
+                                {% else %}
+                                    临时素材
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ data.create_time }}
+                            </td>
+                            <td>
+                                {{ data.desc or '' }}
+                            </td>
+                            <td>
+                                {{ data.key or '' }}
+                            </td>
+                            <td>
+                                {% if data.state == 0 %}
+                                    未删除
+                                {% else %}
+                                    已删除
+                                {% endif %}
+                            </td>
+                            <td>
+                                <form action="/material/del" method="post" style="float:left;padding-right: 2px">
+                                    <input style="display:none" name="media_id" value="{{ data.media_id }}">
+                                    <button type="submit" class="btn btn-info  btn-xs">del</button>
+                                </form>
+                                <form action="/material/use" method="post" style="float:left;padding-right: 2px">
+                                    <input style="display:none" name="media_id" value="{{ data.media_id }}">
+                                    <button type="submit" class="btn btn-success  btn-xs">up</button>
+                                </form>
+                                <form action="/material/off" method="post" style="float:left">
+                                    <input style="display:none" name="media_id" value="{{ data.media_id }}">
+                                    <button type="submit" class="btn  btn-warning  btn-xs">off</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

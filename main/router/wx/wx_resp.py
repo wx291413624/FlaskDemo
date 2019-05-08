@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from main import app, re
+from main import app, re, redis
 from main.router.wx.wx_utils import init_wechat_sdk
 
 import sys
@@ -105,4 +105,6 @@ def update_menu_setting():
 
 
 def return_to_pic(pic_key):
-    return wechat.response_image(app.config['CITY_PIC_KEY'][pic_key.decode('utf-8')])
+    redis_media_id = redis.get('text:back:' + pic_key)
+    # app.config['CITY_PIC_KEY'][pic_key.decode('utf-8')]
+    return wechat.response_image(redis_media_id)

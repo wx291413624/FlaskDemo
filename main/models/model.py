@@ -514,9 +514,8 @@ class User(db.Model):
     id = Column(INTEGER(11), primary_key=True, unique=True)
     unionid = Column(String(255))
     openid = Column(String(255))
-    nickName = Column(String(255))
-    name = Column(String(255))
-    isErrandsMan = Column(INTEGER(11))
+    nick_name = Column(String(255))
+    is_errands_man = Column(INTEGER(11))
     head_img_url = Column(String(255))
     sex = Column(String(10))
     phone = Column(String(255))
@@ -529,19 +528,14 @@ class User(db.Model):
             "id": self.id,
             "unionid": self.unionid,
             "openid": self.openid,
-            "nickName": self.nickName,
-            "name": self.name,
+            "nickName": self.nick_name,
             "headImgUrl": self.head_img_url,
-            "deatilAddress": self.deatil_address,
             "sex": self.sex,
-            "occupation": self.occupation,
             "phone": self.phone,
-            "longitude": self.longitude,
-            "latitude": self.latitude,
             "createTime": str(self.create_time),
             "updateTime": str(self.update_time),
             "isDel": self.is_del,
-            "isErrandsMan": self.isErrandsMan
+            "isErrandsMan": self.is_errands_man
         }
         return str_json
 

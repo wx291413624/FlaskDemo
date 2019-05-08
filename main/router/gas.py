@@ -50,7 +50,7 @@ def find_gas_list():
         gas = mongo.db.dingtalkgas.find(filters).sort('data', DESCENDING)
     else:
         page = int(page)
-        if page is 1:
+        if page < 1:
             page = 0
         else:
             page = 10 * (page - 1)

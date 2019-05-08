@@ -4,7 +4,7 @@ from functools import wraps
 
 from flask import request
 
-from main import app
+from main import app, redis
 
 
 def url_param(func):
@@ -20,6 +20,7 @@ def url_param(func):
                 strs = request.args.get('str')
                 m_key = request.args.get('mkey')
             mkey = tm + "" + strs
+            # rst = redis.lock("request:" + mkey, 600)
             if hashlib.md5(mkey).hexdigest() == m_key:
                 app.logger.info("----signature success----")
                 return func(*args, **kwargs)

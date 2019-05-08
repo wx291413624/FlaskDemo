@@ -10,7 +10,7 @@ from redis import Redis
 
 from main.plugins.queue import make_celery
 
-app = Flask(__name__, instance_relative_config=True)
+app = Flask(__name__, instance_relative_config=True, template_folder='../templates', static_folder='../static')
 api = Api(app, version='1.0', title='GAS API', description='A simple gas_MVC API', )
 
 # 加载配置
@@ -37,3 +37,4 @@ from .router.ding_talk import *
 from .router.pic import *
 from .router.plus import *
 from .router.wx.wx_cron import *
+from .router.lazy.material import *

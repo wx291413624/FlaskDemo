@@ -1,0 +1,60 @@
+<nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+    <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <img src="/static/images/apps.png" alt="logo" style="    width: 100px;"/>
+    </div>
+    <div class="navbar-menu-wrapper d-flex align-items-stretch">
+
+        <ul class="navbar-nav navbar-nav-right">
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle nav-profile" id="profileDropdown" data-toggle="dropdown"
+                   aria-expanded="false">
+                    <img src="/static/images/timg.jpeg" alt="image">
+                    <span class="d-none d-lg-inline">Yuqi</span>
+                </a>
+                <div class="dropdown-menu navbar-dropdown w-100" aria-labelledby="profileDropdown">
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/ex/logout">
+                        <i class="mdi mdi-logout mr-2 text-primary"></i>
+                        Signout
+                    </a>
+                </div>
+            </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                data-toggle="offcanvas">
+            <span class="mdi mdi-menu"></span>
+        </button>
+    </div>
+    {% if error %}
+        <div style="font-size: 30px;
+animation:myfirst 3s none;
+animation-direction:alternate;
+animation-iteration-count:1;
+/* Safari and Chrome */
+-webkit-animation:myfirst 3s none;
+-webkit-animation-direction:alternate;
+-webkit-animation-iteration-count:1; /* Safari 和 Chrome */
+                width:40%;
+                margin-left:-20%;
+                height:200px;
+                position: fixed;
+                left: 50%;
+                animation-fill-mode: forwards;
+                overflow: hidden;
+                color: brown;
+                background-color:transparent">
+            <div class="grid-margin stretch-card">
+                <div class="card" style="background-color: #e8eff4;">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="card-text"> {{ error or '' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</nav>
