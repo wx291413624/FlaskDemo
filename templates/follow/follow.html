@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>微信管理后台</title>
+    {% include 'js.html' %}
+</head>
+<body>
+<div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    {% include  './welcome/header.html' %}
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <div class="row row-offcanvas row-offcanvas-right">
+            <!-- partial:partials/_sidebar.html -->
+            <nav class="sidebar sidebar-offcanvas" id="sidebar">
+                {% include './welcome/navigation.html' %}
+            </nav>
+            <div class="content-wrapper">
+                {% include './follow/list.html' %}
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    function onshow() {
+        $("#exMark").show();
+    }
+
+    function onHide() {
+        $("#exMark").hide()
+    }
+
+    function selectFile() {
+        $("#excelFile").trigger("click");
+    }
+</script>
+</html>

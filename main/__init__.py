@@ -39,3 +39,4 @@ from .router.plus import *
 from .router.wx.wx_cron import *
 from .router.lazy.material import *
 from .router.lazy.keyword import *
+from .router.lazy.follow import *
