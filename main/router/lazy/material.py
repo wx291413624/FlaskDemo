@@ -56,6 +56,7 @@ def ex_material_del():
         v.is_use = 0
         v.state = 1
         v.update_commit()
+        redis.delete('text:back:' + v.key)
         error = 'SUCCESS'
     var = find_list(None)
     return render_template('material/material.html', list=var.items, error=error)

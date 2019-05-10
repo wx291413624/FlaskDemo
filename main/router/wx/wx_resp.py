@@ -47,15 +47,17 @@ def set_msg_type(msg_type):
 def event_resp():
     """关注/取消关注事件回复"""
     app.logger.info('--------用户关注------')
-    response = wechat.response_text("""欢迎关注能数跑腿侠 [玫瑰][玫瑰][玫瑰]
+    response = wechat.response_text("""欢迎您进圈来了就别想空着手出去啦
 
-轻松做任务，现金、加油券任你领!!!
+欢迎关注  加油同时  不给你钱包揣鼓点儿都不是我们风格
+轻松做任务  免费得现金、加油券🧧
 
-回复[地区(如：西安)]加入微信群，解锁更多赚钱任务，还可以结实同行业更多人脉人资源!
+回复【地区关键字（如：北京）】加入微信群，更多赚钱小任务等你来领
 
-点击开始赚钱：http://u2p5hudl5iyp65ef.mikecrm.com/TaB6cIw
+点击开始赚钱：http://cirhu4gwph612vcj.mikecrm.com/FiEBphp
+附赠一本赚钱秘籍：https://m.eqxiu.com/s/hxhWrFzw
 
-跑腿侠，GO GO GO!""")
+跑腿侠江湖召集令，等你跑出省油赚钱一片天！""")
     app.logger.info(response)
     return response
 
@@ -65,15 +67,18 @@ def text_resp():
     """文本类型回复"""
     message.content = message.content.replace(u'　', ' ')
     message.content = message.content.lstrip()
-    commands = {
-        u'重庆': return_to_pic,
-        u'北京': return_to_pic,
-        u'西安': return_to_pic
-    }
+    list = redis.hgetall('keyword:all')
     response = 'success'
-    for key_word in commands:
-        if re.match(key_word, message.content):
-            response = commands[key_word](key_word)
+    for key_word in list:
+        if key_word == message.content:
+            if list[key_word] == '1':
+                response = return_to_pic(key_word)
+            elif list[key_word] == '2':
+                response = return_to_video(key_word)
+            elif list[key_word] == '3':
+                response = return_to_voice(key_word)
+            else:
+                response = ''
             break
     return response
 
@@ -106,5 +111,21 @@ def update_menu_setting():
 
 def return_to_pic(pic_key):
     redis_media_id = redis.get('text:back:' + pic_key)
+    if redis_media_id is None:
+        return ""
     # app.config['CITY_PIC_KEY'][pic_key.decode('utf-8')]
     return wechat.response_image(redis_media_id)
+
+
+def return_to_video(video_key):
+    redis_media_id = redis.get('video:back:' + video_key)
+    if redis_media_id is None:
+        return ""
+    return wechat.response_video(redis_media_id)
+
+
+def return_to_voice(voice_key):
+    redis_media_id = redis.get('voice:back:' + voice_key)
+    if redis_media_id is None:
+        return ""
+    return wechat.response_voice(redis_media_id)

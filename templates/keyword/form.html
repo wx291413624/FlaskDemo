@@ -1,0 +1,25 @@
+<div class="  grid-margin stretch-card" style="opacity:1">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">New Material</h4>
+            <p class="card-description">
+            </p>
+            <form class="forms-sample" enctype="multipart/form-data" action="/keyword/insert" method="post">
+                <div class="form-group">
+                    <label for="exampleInputName1">关键字</label>
+                    <input type="text" class="form-control" id="exampleInputName1" name="value" placeholder="北京">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword4">返回类型</label>
+                    <select class="form-control" name="type">
+                        <option value="1">图片</option>
+                        <option value="3">语音</option>
+                        <option value="2">视频</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-success mr-2">Submit</button>
+                <button type="button" class="btn btn-light" onclick="onHide()">Cancel</button>
+            </form>
+        </div>
+    </div>
+</div>
