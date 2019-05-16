@@ -16,7 +16,7 @@
                     {% for data in  mate_list %}
                         <label class="form-check-label" title="{{ data.desc }}">
                             <input type="checkbox" class="form-check-input" name="med"
-                                   materialType="{{ data.material_type }}"
+                                   materialType="{{ data.material_type }}" materialName="{{ data.key }}"
                                    value="{% if data.material_type == 'text' %}
                                              {{ data.desc }}
                                              {% else %}
@@ -37,7 +37,11 @@
         check_val = []
         obbj.forEach(ob => {
                 if (ob['checked']) {
-                    check_val.push({'id': ob['value'], 'type': ob.getAttribute("materialType")})
+                    check_val.push({
+                        'id': ob['value'],
+                        'type': ob.getAttribute("materialType"),
+                        'name': ob.getAttribute('materialName')
+                    })
                 }
             }
         )

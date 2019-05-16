@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import json
 
 from main import app, re, redis
 from main.router.wx.wx_utils import init_wechat_sdk
@@ -62,23 +63,25 @@ def text_resp():
     response = ''
     if len(list) > 1:
         for li in list:
-            if list[li] == 'image':
+            msg_type = json.loads(list[li])['type']
+            if msg_type == 'image':
                 wechat.send_image_message(openid, li)
-            if list[li] == 'video':
+            if msg_type == 'video':
                 wechat.send_video_message(openid, li)
-            if list[li] == 'voice':
+            if msg_type == 'voice':
                 wechat.send_voice_message(openid, li)
-            if list[li] == 'text':
+            if msg_type == 'text':
                 wechat.send_text_message(openid, li)
     elif len(list) == 1:
         key_frist = list.keys()[0]
-        if list[key_frist] == 'image':
+        msg_type = json.loads(list[key_frist])['type']
+        if msg_type == 'image':
             response = return_to_pic(key_frist)
-        elif list[key_frist] == 'video':
+        elif msg_type == 'video':
             response = return_to_video(key_frist)
-        elif list[key_frist] == 'voice':
+        elif msg_type == 'voice':
             response = return_to_voice(key_frist)
-        elif list[key_frist] == 'text':
+        elif msg_type == 'text':
             response = return_to_text(key_frist)
     return response
 

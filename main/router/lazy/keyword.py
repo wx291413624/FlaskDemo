@@ -22,7 +22,10 @@ def get_list():
     va_list = []
     for key in key_list:
         list = redis.hgetall(key)
-        va_list.append({'key': str(key).replace('keyword:back:', ''), 'value': list})
+        josn_list = []
+        for inss in list:
+            josn_list.append({'key': inss, 'value': json.loads(list[inss])})
+        va_list.append({'key': str(key).replace('keyword:back:', ''), 'value': josn_list})
     mate_list = WechatMaterial.query.filter_by(state=0).order_by(WechatMaterial.create_time.desc())
     return va_list, mate_list
 
@@ -30,8 +33,9 @@ def get_list():
 @app.route("/keyword/del", methods=['POST'])
 @check_login
 def ex_keyword_del():
+    key = request.form.get('key')
     value = request.form.get('value')
-    redis.hdel('keyword:all', value)
+    redis.hdel('keyword:back:' + key, value)
     list, mate_list = get_list()
     return render_template('keyword/keyword.html', list=list, mate_list=mate_list)
 
@@ -43,6 +47,7 @@ def ex_keyword_def_insert():
     key = request.form.get('mediaKey')
     media_ids = json.loads(media_ids)
     for media_id in media_ids:
-        redis.hset('keyword:back:' + key, media_id['id'].replace('\n', '').strip(), media_id['type'])
+        redis.hset('keyword:back:' + key, media_id['id'].replace('\n', '').strip(),
+                   '{"type":"' + media_id['type'] + '","name":"' + media_id['name'] + '"}')
     list, mate_list = get_list()
     return render_template('keyword/keyword.html', list=list, mate_list=mate_list)
