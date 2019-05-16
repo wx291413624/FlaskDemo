@@ -57,19 +57,29 @@ def text_resp():
     """文本类型回复"""
     message.content = message.content.replace(u'　', ' ')
     message.content = message.content.lstrip()
-    list = redis.hgetall('keyword:all')
-    response = 'success'
-    for key_word in list:
-        if key_word == message.content:
-            if list[key_word] == '1':
-                response = return_to_pic(key_word)
-            elif list[key_word] == '2':
-                response = return_to_video(key_word)
-            elif list[key_word] == '3':
-                response = return_to_voice(key_word)
-            else:
-                response = ''
-            break
+    list = redis.hgetall('keyword:back:' + message.content)
+    openid = message.source
+    response = ''
+    if len(list) > 1:
+        for li in list:
+            if list[li] == 'image':
+                wechat.send_image_message(openid, li)
+            if list[li] == 'video':
+                wechat.send_video_message(openid, li)
+            if list[li] == 'voice':
+                wechat.send_voice_message(openid, li)
+            if list[li] == 'text':
+                wechat.send_text_message(openid, li)
+    elif len(list) == 1:
+        key_frist = list.keys()[0]
+        if list[key_frist] == 'image':
+            response = return_to_pic(key_frist)
+        elif list[key_frist] == 'video':
+            response = return_to_video(key_frist)
+        elif list[key_frist] == 'voice':
+            response = return_to_voice(key_frist)
+        elif list[key_frist] == 'text':
+            response = return_to_text(key_frist)
     return response
 
 
@@ -100,22 +110,25 @@ def update_menu_setting():
 
 
 def return_to_pic(pic_key):
-    redis_media_id = redis.get('text:back:' + pic_key)
-    if redis_media_id is None:
+    if pic_key is None:
         return ""
     # app.config['CITY_PIC_KEY'][pic_key.decode('utf-8')]
-    return wechat.response_image(redis_media_id)
+    return wechat.response_image(pic_key)
 
 
 def return_to_video(video_key):
-    redis_media_id = redis.get('video:back:' + video_key)
-    if redis_media_id is None:
+    if video_key is None:
         return ""
-    return wechat.response_video(redis_media_id)
+    return wechat.response_video(video_key)
 
 
 def return_to_voice(voice_key):
-    redis_media_id = redis.get('voice:back:' + voice_key)
-    if redis_media_id is None:
+    if voice_key is None:
         return ""
-    return wechat.response_voice(redis_media_id)
+    return wechat.response_voice(voice_key)
+
+
+def return_to_text(text_key):
+    if text_key is None:
+        return ""
+    return wechat.response_text(text_key)

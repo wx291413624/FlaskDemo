@@ -11,15 +11,6 @@
                     <thead>
                     <tr>
                         <th>
-                            使用状态
-                        </th>
-                        <th>
-                            素材标识
-                        </th>
-                        <th>
-                            素材地址
-                        </th>
-                        <th>
                             素材类型
                         </th>
                         <th>
@@ -46,23 +37,6 @@
                     {% for data in list %}
                         <tr>
                             <td>
-                                {% if  data.state == 0 %}
-                                    {% if data.is_use == 1 %}
-                                        使用中
-                                    {% else %}
-                                        未使用
-                                    {% endif %}
-                                {% else %}
-                                    已失效
-                                {% endif %}
-                            </td>
-                            <td>
-                                {{ data.media_id }}
-                            </td>
-                            <td style="width: 20px">
-                                {{ data.url }}
-                            </td>
-                            <td>
                                 {{ data.material_type }}
                             </td>
                             <td>
@@ -82,26 +56,27 @@
                                 {{ data.key or '' }}
                             </td>
                             <td>
-                                {% if data.state == 0 %}
-                                    未删除
+                                {% if data.material_type == 'text' %}
+
                                 {% else %}
-                                    已删除
+                                    {% if data.state == 0 %}
+                                        未删除
+                                    {% else %}
+                                        已删除
+                                    {% endif %}
                                 {% endif %}
                             </td>
                             <td>
-                                {% if data.state == 0 %}
-                                    <form action="/material/del" method="post" style="float:left;padding-right: 2px">
-                                        <input style="display:none" name="media_id" value="{{ data.media_id }}">
-                                        <button type="submit" class="btn btn-info  btn-xs">del</button>
-                                    </form>
-                                    <form action="/material/use" method="post" style="float:left;padding-right: 2px">
-                                        <input style="display:none" name="media_id" value="{{ data.media_id }}">
-                                        <button type="submit" class="btn btn-success  btn-xs">up</button>
-                                    </form>
-                                    <form action="/material/off" method="post" style="float:left">
-                                        <input style="display:none" name="media_id" value="{{ data.media_id }}">
-                                        <button type="submit" class="btn  btn-warning  btn-xs">off</button>
-                                    </form>
+                                {% if data.material_type == 'text' %}
+
+                                {% else %}
+                                    {% if data.state == 0 %}
+                                        <form action="/material/del" method="post"
+                                              style="float:left;padding-right: 2px">
+                                            <input style="display:none" name="media_id" value="{{ data.media_id }}">
+                                            <button type="submit" class="btn btn-info  btn-xs">del</button>
+                                        </form>
+                                    {% endif %}
                                 {% endif %}
                             </td>
                         </tr>

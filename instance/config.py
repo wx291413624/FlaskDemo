@@ -12,6 +12,10 @@ SECRET_KEY = os.urandom(24)
 DEBUG = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 SQLALCHEMY_DATABASE_URI = "mysql://root:Kiretyo1521@47.95.235.183:3306/guns?charset=utf8mb4"
+SQLALCHEMY_BINDS = {
+    'czb': "mysql://lat2fxm8:vPycRw4JXQCfXYr3eYmsLTFBhMhJAbRx@rm-2zezgzl30gt43ox9bo.mysql.rds.aliyuncs.com:3306/chezhubangapp?charset=utf8mb4",
+    'sys': 'sqlite:///../server_conf/sys'
+}
 # SQLALCHEMY_DATABASE_URI = "mysql://debian-sys-maint:PmOL3zdw6WErzZ7a@127.0.0.1:3306/TEST?charset=utf8mb4"
 
 MYSQL_CURSORCLASS = 'DictCursor'
@@ -36,26 +40,6 @@ CELERYBEAT_SCHEDULE = {
         'task': 'access_token.update',
         'schedule': crontab(minute=0, hour='*/1')
     }
-}
-
-MENU_SETTING = {
-    "button": [
-        {
-            "type": "view",
-            "name": "跑腿侠申请",
-            "url": "http://www.baidu.com/"
-        },
-        {
-            "type": "view",
-            "name": "任务广场",
-            "url": "http://www.baidu.com/"
-        },
-        {
-            "type": "view",
-            "name": "我的账户",
-            "url": "http://www.baidu.com/"
-        }
-    ]
 }
 
 MENU_TEST_CLICK = {

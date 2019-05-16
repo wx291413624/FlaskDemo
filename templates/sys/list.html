@@ -1,0 +1,68 @@
+<div id="exMark" style="display:none">{% include './sys/mask.html' %}</div>
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">System</h4>
+                <button type="button" class="btn btn-danger" onclick="onshow()"><i class="mdi mdi-upload"></i>新建
+                </button>
+                <div style="height: 10px"></div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>
+                            姓名
+                        </th>
+                        <th>
+                            账号
+                        </th>
+                        <th>
+                            性别
+                        </th>
+                        <th>
+                            状态
+                        </th>
+                        <th>
+                            操作
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for data in list %}
+                        <tr>
+                            <td>
+                                {{ data.nick_name or '未录入' }}
+                            </td>
+                            <td>
+                                {{ data.account }}
+                            </td>
+                            <td>
+                                {% if data.sex == 0 %}
+                                    男
+                                {% else %}
+                                    女
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if data.states == 0 %}
+                                    未删除
+                                {% else %}
+                                    已删除
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if data.states == 0 %}
+                                    <form action="/sys/del" method="post" style="float:left;padding-right: 2px">
+                                        <input style="display:none" name="id" value="{{ data.id }}">
+                                        <button type="submit" class="btn btn-info  btn-xs">del</button>
+                                    </form>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -9,7 +9,9 @@ from flask import jsonify, request
 from flask_pymongo import DESCENDING
 
 from main import app, mongo
+from main.utils import DecimalEncoder
 from main.utils.req import url_param
+from main.models.czb_model import YfqFwGasInfo
 
 
 @app.route("/insert", methods=['POST'])
@@ -78,6 +80,16 @@ def put_gas():
     return 'success'
 
 
-@app.route("/excel", methods=['GET', 'POST'])
-def excel():
-    return 'success'
+@app.route("/czb/gas", methods=['GET'])
+def gas_get_sql():
+    pwd = request.args.get('pwd')
+    if pwd is not None and pwd is 'czbgas':
+        lat = request.args.get('lat')
+        lng = request.args.get('lng')
+        gas = YfqFwGasInfo().find_sum(lat, lng)
+        gas_list = []
+        for ga in gas:
+            gas_list.append(json.dumps(list(ga), cls=DecimalEncoder))
+        return jsonify(gas_list)
+    else:
+        return jsonify([])

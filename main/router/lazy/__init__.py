@@ -5,6 +5,7 @@ from functools import wraps
 from flask import session, render_template
 
 from main import app, request
+from main.models.login_model import SysUser
 
 
 def check_login(func):
@@ -36,7 +37,8 @@ def ex_logout():
 def ex_login():
     acc = request.form.get('acc')
     pwd = request.form.get('pwd')
-    if acc == "admin" and pwd == "admin":
+    us = SysUser.query.filter_by(account=acc).first()
+    if pwd == us.pwd:
         session['token'] = {'acc': acc, 'pwd': pwd}
         return render_template('home.html', welcome='WELCOME', time=str(datetime.date.today()), error='登陆成功')
     return render_template('index.html', desc=u'登录失败...请重新登录', )

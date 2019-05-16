@@ -1,5 +1,6 @@
 # coding=utf-8
 import datetime
+import json
 
 from flask import render_template
 
@@ -12,27 +13,18 @@ from main.router.wx import get_wechat_access_token, wechat_login
 @app.route("/keyword", methods=['GET'])
 @check_login
 def ex_keyword():
-    list = get_list()
-    return render_template('keyword/keyword.html', list=list)
+    list, mate_list = get_list()
+    return render_template('keyword/keyword.html', list=list, mate_list=mate_list)
 
 
 def get_list():
-    list = redis.hgetall('keyword:all')
-    key_list = []
-    for li in list:
-        ls = {"key": li, "value": list[li]}
-        key_list.append(ls)
-    return key_list
-
-
-@app.route("/keyword/insert", methods=['POST'])
-@check_login
-def ex_keyword_insert():
-    type = request.form.get('type')
-    value = request.form.get('value')
-    redis.hset('keyword:all', value, type)
-    list = get_list()
-    return render_template('keyword/keyword.html', list=list)
+    key_list = redis.keys('keyword:back:*')
+    va_list = []
+    for key in key_list:
+        list = redis.hgetall(key)
+        va_list.append({'key': str(key).replace('keyword:back:', ''), 'value': list})
+    mate_list = WechatMaterial.query.filter_by(state=0).order_by(WechatMaterial.create_time.desc())
+    return va_list, mate_list
 
 
 @app.route("/keyword/del", methods=['POST'])
@@ -40,5 +32,17 @@ def ex_keyword_insert():
 def ex_keyword_del():
     value = request.form.get('value')
     redis.hdel('keyword:all', value)
-    list = get_list()
-    return render_template('keyword/keyword.html', list=list)
+    list, mate_list = get_list()
+    return render_template('keyword/keyword.html', list=list, mate_list=mate_list)
+
+
+@app.route("/keyword/insert", methods=['POST'])
+@check_login
+def ex_keyword_def_insert():
+    media_ids = request.form.get('mediaIds')
+    key = request.form.get('mediaKey')
+    media_ids = json.loads(media_ids)
+    for media_id in media_ids:
+        redis.hset('keyword:back:' + key, media_id['id'].replace('\n', '').strip(), media_id['type'])
+    list, mate_list = get_list()
+    return render_template('keyword/keyword.html', list=list, mate_list=mate_list)

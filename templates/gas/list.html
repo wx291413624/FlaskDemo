@@ -1,0 +1,56 @@
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Gas 今日共录入{{ count }}条</h4>
+                <form action="/gas/excel" method="get">
+                    <button type="submit" class="btn btn-danger"><i class="mdi mdi-upload"></i>导出
+                    </button>
+                </form>
+                <div style="height: 10px"></div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>
+                            姓名
+                        </th>
+                        <th>
+                            加油站名称
+                        </th>
+                        <th>
+                            加油站区域
+                        </th>
+                        <th>
+                            加油站地址
+                        </th>
+                        <th>
+                            创建时间
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for data in list %}
+                        <tr>
+                            <td>
+                                {{ data.gas.user.name }}
+                            </td>
+                            <td>
+                                {{ data.gas.petrolStation.petrolStationName }}
+                            </td>
+                            <td>
+                                {{ data.gas.petrolStation.province }}
+                            </td>
+                            <td>
+                                {{ data.gas.petrolStation.petrolStationSite }}
+                            </td>
+                            <td>
+                                {{ data.data }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

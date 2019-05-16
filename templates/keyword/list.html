@@ -30,15 +30,7 @@
                                 {{ data.key }}
                             </td>
                             <td>
-                                {% if data.value == '1' %}
-                                    图片
-                                {% elif data.value == '2' %}
-                                    视频
-                                {% elif data.value == '3' %}
-                                    声音
-                                {% else %}
-                                    未知类型
-                                {% endif %}
+                                {{ data.value }}
                             </td>
                             <td>
                                 <form action="/keyword/del" method="post" style="float:left;padding-right: 2px">

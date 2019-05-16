@@ -4,22 +4,45 @@
             <h4 class="card-title">New Material</h4>
             <p class="card-description">
             </p>
-            <form class="forms-sample" enctype="multipart/form-data" action="/keyword/insert" method="post">
+            <form id="tijiao" class="forms-sample" enctype="multipart/form-data" action="/keyword/insert" method="post">
                 <div class="form-group">
                     <label for="exampleInputName1">关键字</label>
-                    <input type="text" class="form-control" id="exampleInputName1" name="value" placeholder="北京">
+                    <input type="text" class="form-control" id="exampleInputName1" name="mediaKey" placeholder="北京">
                 </div>
+
                 <div class="form-group">
-                    <label for="exampleInputPassword4">返回类型</label>
-                    <select class="form-control" name="type">
-                        <option value="1">图片</option>
-                        <option value="3">语音</option>
-                        <option value="2">视频</option>
-                    </select>
+                    <label for="exampleInputName1">素材选择</label><br>
+                    <input style="display: none" id="mediaIds" name="mediaIds">
+                    {% for data in  mate_list %}
+                        <label class="form-check-label" title="{{ data.desc }}">
+                            <input type="checkbox" class="form-check-input" name="med"
+                                   materialType="{{ data.material_type }}"
+                                   value="{% if data.material_type == 'text' %}
+                                             {{ data.desc }}
+                                             {% else %}
+                                             {{ data.media_id }}
+                                            {% endif %}"> {{ data.key }} <i class="input-helper"></i>
+                        </label>
+                    {% endfor %}
                 </div>
-                <button type="submit" class="btn btn-success mr-2">Submit</button>
+                <button type="button" class="btn btn-success mr-2" onclick="clic()">Submit</button>
                 <button type="button" class="btn btn-light" onclick="onHide()">Cancel</button>
             </form>
         </div>
     </div>
 </div>
+<script>
+    function clic() {
+        obbj = document.getElementsByName('med')
+        check_val = []
+        obbj.forEach(ob => {
+                if (ob['checked']) {
+                    check_val.push({'id': ob['value'], 'type': ob.getAttribute("materialType")})
+                }
+            }
+        )
+        console.log(check_val)
+        document.getElementById('mediaIds').value = JSON.stringify(check_val)
+        document.getElementById("tijiao").submit();
+    }
+</script>
