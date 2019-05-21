@@ -30,19 +30,23 @@ def authorized():
     wl = wechat_login(app.config['APP_ID'], app.config['APP_SECRET'])
     data = wl.access_token(code)
     app.logger.info(data)
-    openid = data.openid
-    access_token = data.access_token
+    openid = data['openid']
+    access_token = data['access_token']
     wechat_user = wl.user_info(access_token, openid)
     app.logger.info(wechat_user)
-    account = User.query.filter_by(openid=wechat_user.openid).first()
+    account = User.query.filter_by(openid=wechat_user['openid']).first()
     if account:
         app.logger.info('----user is in our database---')
     else:
-        account = User(unionid=wechat_user.unionid, openid=wechat_user.openid, nickName=wechat_user.nickname,
-                       head_img_url=wechat_user.headimgurl, sex=wechat_user.sex, is_del=0, isErrandsMan=0).save()
+        unionid = ''
+        if 'unionid' in wechat_user:
+            unionid = wechat_user['unionid']
+        account = User(unionid=unionid, openid=wechat_user['openid'], nick_name=wechat_user['nickname'],
+                       head_img_url=wechat_user['headimgurl'], sex=wechat_user['sex'], is_del=0,
+                       is_errands_man=0).save()
     token = str.replace(str(uuid.uuid1()), '-', '')
     redis.set("account:wechat_login:" + token, json.dumps(account.to_json()), 70000)
-    if wechat_user.phone:
+    if account.phone:
         return jsonify({'token': token, 'type': 1})
     return jsonify({'token': token, 'type': 0})
 

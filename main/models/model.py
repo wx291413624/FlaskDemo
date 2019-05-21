@@ -523,6 +523,11 @@ class User(db.Model):
     update_time = Column(TIMESTAMP)
     is_del = Column(TINYINT(4))
 
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+        return self
+
     def to_json(self):
         str_json = {
             "id": self.id,
@@ -538,8 +543,3 @@ class User(db.Model):
             "isErrandsMan": self.is_errands_man
         }
         return str_json
-
-        def save(self):
-            db.session.add(self)
-            db.session.commit()
-            return self

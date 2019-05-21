@@ -3,8 +3,16 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Gas 今日共录入{{ count }}条</h4>
-                <form action="/gas/excel" method="get">
+                <input type="date" class="form-control" style="width: 200px;" id="datePicker" value="{{ ttime }}"/>
+                <div style="height: 10px"></div>
+                <form action="/gas/excel" method="get" style="float:right " onsubmit="return sumbit_gas()">
+                    <input id="tdayexcel" name="tday" style="display: none">
                     <button type="submit" class="btn btn-danger"><i class="mdi mdi-upload"></i>导出
+                    </button>
+                </form>
+                <form action="/gas" method="get" onsubmit="return sumbit_gas()">
+                    <input id="tday" name="tday" style="display: none">
+                    <button type="submit" class="btn btn-danger"><i class="mdi mdi-upload"></i>查询
                     </button>
                 </form>
                 <div style="height: 10px"></div>
@@ -54,3 +62,18 @@
         </div>
     </div>
 </div>
+<script>
+    {#document.getElementById('datePicker').valueAsDate = new Date();#}
+
+    function sumbit_gas() {
+        date = document.getElementById('datePicker')
+        document.getElementById('tdayexcel').value = date.value
+        document.getElementById('tday').value = date.value
+        return true
+    }
+</script>
+<style>
+    input[type=date]::-webkit-inner-spin-button {
+        visibility: hidden;
+    }
+</style>

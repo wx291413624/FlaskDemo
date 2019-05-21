@@ -68,7 +68,7 @@ def ex_gas():
         g['data'] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(int(g['data'])))
         gas_list.append(g)
     gas_list.sort(key=takeSecond)
-    return render_template('gas/gas.html', list=gas_list, count=count)
+    return render_template('gas/gas.html', list=gas_list, count=count, ttime=tday)
 
 
 def takeSecond(elem):

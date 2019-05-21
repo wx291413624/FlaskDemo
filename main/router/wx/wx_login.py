@@ -17,7 +17,7 @@ class wechat_login(object):
     def _get(self, url, params):
         resp = requests.get(url, params=params)
         data = json.loads(resp.content.decode("utf-8"))
-        if data['errcode']:
+        if 'errcode' in data:
             msg = "%(errcode)d %(errmsg)s" % data
             raise Exception(msg)
         return data
@@ -25,7 +25,7 @@ class wechat_login(object):
     def _post(self, url, params):
         resp = requests.post(url, json=params)
         data = json.loads(resp.content.decode("utf-8"))
-        if data['errcode']:
+        if 'errcode' in data:
             msg = "%(errcode)d %(errmsg)s" % data
             raise Exception(msg)
         return data

@@ -14,7 +14,7 @@
                     <label for="exampleInputName1">素材选择</label><br>
                     <input style="display: none" id="mediaIds" name="mediaIds">
                     {% for data in  mate_list %}
-                        <label class="form-check-label" title="{{ data.desc }}">
+                        <label class="form-check-label" title="{{ data.desc }}" style="width: 100px;">
                             <input type="checkbox" class="form-check-input" name="med"
                                    materialType="{{ data.material_type }}" materialName="{{ data.key }}"
                                    value="{% if data.material_type == 'text' %}

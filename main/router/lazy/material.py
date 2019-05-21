@@ -12,7 +12,7 @@ from main.router.wx import get_wechat_access_token, wechat_login
 def find_list(page):
     if page is None:
         page = 1
-    return WechatMaterial.query.order_by(WechatMaterial.create_time.desc()).paginate(page, 20)
+    return WechatMaterial.query.filter_by(state=0).order_by(WechatMaterial.create_time.desc()).paginate(page, 20)
 
 
 @app.route("/material", methods=['GET'])
@@ -40,7 +40,7 @@ def ex_material_upload():
             access_token = get_wechat_access_token()
             data = wechat_login("", "").upload_file(access_token, fs[0], materialType)
             app.logger.info(data)
-            if 'errcode' in None:
+            if 'errcode' in data:
                 error = '微信不支持图片名称为汉字'
             else:
                 WechatMaterial(media_id=data['media_id'], url=data['url'], material_type=materialType, type=type,
