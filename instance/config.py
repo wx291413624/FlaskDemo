@@ -21,7 +21,7 @@ SQLALCHEMY_BINDS = {
 MYSQL_CURSORCLASS = 'DictCursor'
 
 MONGO_URI = "mongodb://39.96.73.116:27017/gas"
-# MONGO_URI = "mongodb://localhost:27017/gas"
+WX_MONGO_URI = "mongodb://39.96.73.116:27017/wx"
 
 REDIS_HOST = '39.96.73.116'
 
@@ -50,9 +50,9 @@ MENU_TEST_CLICK = {
             "key": "TEST_CLICK"
         },
         {
-            "type": "click",
+            "type": "view",
             "name": "任务广场",
-            "key": "TEST_CLICK"
+            "url": "http://cirhu4gwph612vcj.mikecrm.com/FiEBphp"
         },
         {
             "type": "click",

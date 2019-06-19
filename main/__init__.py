@@ -19,6 +19,7 @@ CORS(app, supports_credentials=True)
 excel.init_excel(app)
 # 初始第三方库
 mongo = PyMongo(app)
+wx_mongo = PyMongo(app, uri=app.config['WX_MONGO_URI'])
 celery = make_celery(app)
 redis = Redis(host=app.config['REDIS_HOST'])
 

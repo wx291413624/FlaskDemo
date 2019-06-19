@@ -83,7 +83,7 @@ def put_gas():
 @app.route("/czb/gas", methods=['GET'])
 def gas_get_sql():
     pwd = request.args.get('pwd')
-    if pwd is not None and pwd is 'czbgas':
+    if pwd is not None and pwd == 'czbgas':
         lat = request.args.get('lat')
         lng = request.args.get('lng')
         gas = YfqFwGasInfo().find_sum(lat, lng)

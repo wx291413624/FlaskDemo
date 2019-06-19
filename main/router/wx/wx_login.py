@@ -25,9 +25,6 @@ class wechat_login(object):
     def _post(self, url, params):
         resp = requests.post(url, json=params)
         data = json.loads(resp.content.decode("utf-8"))
-        if 'errcode' in data:
-            msg = "%(errcode)d %(errmsg)s" % data
-            raise Exception(msg)
         return data
 
     def _post_upload_file(self, url, files):
@@ -70,4 +67,7 @@ class wechat_login(object):
         url = 'https://api.weixin.qq.com/cgi-bin/material/del_material?access_token=%s' % access_token
         params = dict()
         params.setdefault('media_id', media_id)
-        return self._post(url, params)
+        data = self._post(url, params)
+        if data['errcode']:
+            msg = "%(errcode)d %(errmsg)s" % data
+            raise Exception(msg)
