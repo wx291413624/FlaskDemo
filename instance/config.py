@@ -11,7 +11,7 @@ SECRET_KEY = os.urandom(24)
 
 DEBUG = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
-SQLALCHEMY_DATABASE_URI = "mysql://root:Kiretyo1521@47.95.235.183:3306/guns?charset=utf8mb4"
+SQLALCHEMY_DATABASE_URI = "mysql://root:9a2g6HdARwrfjTgw69ZKEZ4JvRcpPa@rm-2ze121u0y0r4986m4wo.mysql.rds.aliyuncs.com:3306/guns?charset=utf8mb4"
 SQLALCHEMY_BINDS = {
     'czb': "mysql://lat2fxm8:vPycRw4JXQCfXYr3eYmsLTFBhMhJAbRx@rm-2zezgzl30gt43ox9bo.mysql.rds.aliyuncs.com:3306/chezhubangapp?charset=utf8mb4",
     'sys': 'sqlite:///../server_conf/sys'
@@ -20,10 +20,11 @@ SQLALCHEMY_BINDS = {
 
 MYSQL_CURSORCLASS = 'DictCursor'
 
-MONGO_URI = "mongodb://39.96.73.116:27017/gas"
-WX_MONGO_URI = "mongodb://39.96.73.116:27017/wx"
+MONGO_URI = "mongodb://user:f2KrUTwjzEwmL4kjphf7x87b6fhxkN@dds-2zee571cd288cba41.mongodb.rds.aliyuncs.com:3717/gas"
+WX_MONGO_URI = "mongodb://wxr:f2KrUTwjzEwmL4kjphf7x87b6fhxkN@dds-2zee571cd288cba41.mongodb.rds.aliyuncs.com:3717/wx"
 
-REDIS_HOST = '39.96.73.116'
+REDIS_HOST = 'r-2zejx4qwml5jc5lcob.redis.rds.aliyuncs.com'
+REDIS_PASSWORD = '3tz9w8csXKc67Br7'
 
 # 微信公众平台配置
 APP_ID = "wx2f772ca355796adb"
@@ -32,8 +33,8 @@ TOKEN = "nengshuguanwei"
 EncodingAESKey = "6gzMRGule1gjR4fNHTMoIx7XW9bxClzSw4TdVYWDHvh"
 
 # celery 配置
-CELERY_BROKER_URL = 'redis://39.96.73.116:6379/1'
-CELERY_RESULT_BACKEND = 'redis://39.96.73.116:6379/2'
+CELERY_BROKER_URL = 'redis://:3tz9w8csXKc67Br7@r-2zejx4qwml5jc5lcob.redis.rds.aliyuncs.com:6379/1'
+CELERY_RESULT_BACKEND = 'redis://:3tz9w8csXKc67Br7@r-2zejx4qwml5jc5lcob.redis.rds.aliyuncs.com:6379/2'
 CELERY_TIMEZONE = 'Asia/Shanghai'
 CELERYBEAT_SCHEDULE = {
     'every-1-hour': {
@@ -67,3 +68,7 @@ CITY_PIC_KEY = {
     u'北京': u'6xbcktgL5KVQDsNjXNrAxUj5PDD0azvm64EQJN-CTxw',
     u'西安': u'6xbcktgL5KVQDsNjXNrAxX5RYr_1G76Z70UgUGUclXA'
 }
+
+# mongo --authenticationDatabase admin -u root -p f2KrUTwjzEwmL4kjphf7x87b6fhxkN  dds-2zee571cd288cba41.mongodb.rds.aliyuncs.com:3717/gas
+# db.grantRolesToUser ( "wxr", [ { role: "readWriteAnyDatabase", db: "wx" } ] )
+# db.createUser({user:"wxr",pwd:"f2KrUTwjzEwmL4kjphf7x87b6fhxkN",roles:[{role:"readWrite",db:"wx"}],mechanisms : ["SCRAM-SHA-1"]})

@@ -21,7 +21,7 @@ excel.init_excel(app)
 mongo = PyMongo(app)
 wx_mongo = PyMongo(app, uri=app.config['WX_MONGO_URI'])
 celery = make_celery(app)
-redis = Redis(host=app.config['REDIS_HOST'])
+redis = Redis(decode_responses=True, host=app.config['REDIS_HOST'], password=app.config['REDIS_PASSWORD'], db=0)
 
 # 记录日志
 handler = RotatingFileHandler('app.log', maxBytes=10000, backupCount=1)
