@@ -5,7 +5,7 @@ Flask==1.0.2
 wechat_sdk==0.6.4
 flask_restplus==0.12.1
 redis==3.2.1
-celery==4.3.0
+celery==5.2.2
 Flask_Cors==3.0.7
 Flask_PyMongo==2.2.0
 Flask_SQLAlchemy==2.3.2
