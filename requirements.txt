@@ -1,5 +1,5 @@
 requests==2.6.0
-setuptools==40.8.0
+setuptools==65.5.1
 oss2==2.6.1
 Flask==1.0.2
 wechat_sdk==0.6.4
